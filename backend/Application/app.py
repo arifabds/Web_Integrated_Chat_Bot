@@ -1,25 +1,30 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from ..Generation.generator import Generator
 
 app = Flask(__name__)
 
-# CORS ayarları
-CORS(app, origins=["https://arifabds.github.io"], methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
+# CORS Yapılandırması (Tüm route'lar için geçerli)
+CORS(
+    app,
+    origins=["https://arifabds.github.io"],  # Frontend origin
+    methods=["GET", "POST", "OPTIONS"],       # İzin verilen metodlar
+    allow_headers=["Content-Type", "Authorization"],  # İzin verilen başlıklar
+    supports_credentials=True                # Cookie veya auth header'lar için
+)
 
 @app.route('/health', methods=['GET'])
-@cross_origin()
 def health_check():
     return jsonify({"status": "çalışır durumda"}), 200
 
 @app.route('/generate', methods=['POST', 'OPTIONS'])
-@cross_origin()
 def generate():
-    if request.method == "OPTIONS":
-        # Preflight OPTIONS isteği için yanıt
-        return jsonify({"message": "Preflight başarılı"}), 200
-    
     try:
+        # Preflight OPTIONS isteği için otomatik yanıt (flask_cors halleder)
+        if request.method == "OPTIONS":
+            return jsonify({"message": "Preflight başarılı"}), 200
+        
+        # Ana POST işlemi
         data = request.get_json()
         prompt_from_frontend = data.get("userPrompt")
 
