@@ -4,17 +4,8 @@ from ..Generation.generator import Generator
 
 app = Flask(__name__)
 
-CORS(app, origins=["https://arifabds.github.io/chatbot/"], methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
-
-@app.before_request
-def handle_options():
-    if request.method == "OPTIONS":
-        response = jsonify({"message": "Preflight başarılı"})
-        response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io/chatbot/")
-        response.headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        return response, 200
-
+# CORS ayarları
+CORS(app, origins=["https://arifabds.github.io"], methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
 
 @app.route('/health', methods=['GET'])
 @cross_origin()
@@ -24,15 +15,13 @@ def health_check():
 @app.route('/generate', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def generate():
-    # Preflight OPTIONS isteği
     if request.method == "OPTIONS":
+        # Preflight OPTIONS isteği için yanıt
         return jsonify({"message": "Preflight başarılı"}), 200
     
     try:
         data = request.get_json()
         prompt_from_frontend = data.get("userPrompt")
-
-        #print("\nFrontend'den gelen mesaj şu şekilde:", prompt_from_frontend, "\n")
 
         if not prompt_from_frontend or prompt_from_frontend.strip() == "":
             prompt_from_frontend = "Kullanıcı komutu boş veya eksik!"
