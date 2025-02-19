@@ -1,28 +1,15 @@
 {
-    "version": 2,
-    "functions": {
-      "api/**/*.py": {
-        "runtime": "python3.9",
-        "memory": 1024,
-        "maxDuration": 30
-      },
-      "main.py": {
-        "runtime": "python3.9",
-        "memory": 1024,
-        "maxDuration": 30
-      }
-    },
-    "builds": [
-      {
-        "src": "main.py",
-        "use": "@vercel/python"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "main.py"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "main.py"
+    }
+  ]
+}
