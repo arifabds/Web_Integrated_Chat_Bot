@@ -1,15 +1,17 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin 
 from ..Generation.generator import Generator
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/health', methods=['GET'])
+@cross_origin()
 def health_check():
     return jsonify({"status": "çalışır durumda"}), 200
 
 @app.route('/generate', methods=['POST'])
+@cross_origin()
 def generate():
     try:
         data = request.get_json()
