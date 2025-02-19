@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from Generation.generator import Generator
+from ..Generation.generator import Generator
 
 app = Flask(__name__)
 CORS(app)
@@ -13,14 +13,16 @@ def health_check():
 def generate():
     try:
         data = request.get_json()
-        context = data.get("context")
+        prompt_from_frontend = data.get("userPrompt")
+
+        print("\nFrontend'den gelen mesaj şu şekilde:", prompt_from_frontend, "\n")
         
-        if not context or context.strip() == "":
-            context = "Kullanıcı komutu boş veya eksik!"
+        if not prompt_from_frontend or prompt_from_frontend.strip() == "":
+            prompt_from_frontend  = "Kullanıcı komutu boş veya eksik!"
 
         generator = Generator()
 
-        result = generator.send_message(context)
+        result = generator.send_message(prompt_from_frontend)
 
         #print("\nModelden gelen yanıt:", result["response"], "\n")
 

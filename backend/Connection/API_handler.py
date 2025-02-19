@@ -1,4 +1,4 @@
-from connector import Connector
+from ..Connection.connector import Connector
 
 class APIHandler:
     def __init__(self, token, model):

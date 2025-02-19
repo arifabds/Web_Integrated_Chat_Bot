@@ -1,12 +1,6 @@
-import json
-import numpy as np
-import threading
-from queue import Queue
-from Connection.API_handler import APIHandler
-from numpy.linalg import norm
-from sentence_transformers import SentenceTransformer
-from relevant_context import RelevantContext
-from Token_Balancers.keyword_generator import KeywordGenerator
+from ..Connection.API_handler import APIHandler
+from ..Retrieval_Manager.relevant_context import RelevantContext
+from ..Token_Balancers.keyword_generator import KeywordGenerator
 
 class RAG:
     def __init__(self,  custom_search_api_key, cx, search_query_api_key, llm_model, sentence_transformer_model, api_handler_key_gen, api_key_gen):

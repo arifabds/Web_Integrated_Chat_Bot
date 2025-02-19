@@ -1,12 +1,12 @@
 import os
 from queue import Queue
 import threading
-from Retrieval_Manager.RAG import RAG
-from Connection.API_handler import APIHandler
-from Scraping.scrape_manager import ScrapeManager
+from ..Retrieval_Manager.RAG import RAG
+from ..Connection.API_handler import APIHandler
+from ..Scraping.scrape_manager import ScrapeManager
 from sentence_transformers import SentenceTransformer
-from Configuration.config import Config
-from Token_Balancers.chat_history_summarizer import ChatHistorySummarizer
+from ..Configuration.config import Config
+from ..Token_Balancers.chat_history_summarizer import ChatHistorySummarizer
 
 
 class Generator:
@@ -82,7 +82,7 @@ class Generator:
 
         full_prompt = (
             f"{self.context_introduction}\n"
-            f"Kullanıcı komutu {self.prompt}\n"
+            f"Kullanıcı komutu: {self.prompt}\n"
             f"Özetlenmiş sohbet geçmişi: {summarized_chat_history}\n" +
             f"Web araması sonucu oluşturulan bağlam:{result_context}\n"
         )
