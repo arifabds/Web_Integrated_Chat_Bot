@@ -18,6 +18,7 @@ CORS(
 def health_check():
     response = jsonify({"status": "çalışır durumda"})
     response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io")
+    response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io/chatbot")
     return response, 200
 
 @app.route('/generate', methods=['POST', 'OPTIONS'])
@@ -26,6 +27,7 @@ def generate():
         # Preflight için özel yanıt
         response = jsonify({"message": "Preflight başarılı"})
         response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io")
+        response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io/chatbot")
         response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
         response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
         return response, 200
@@ -45,6 +47,7 @@ def generate():
 
         response = jsonify({"status": "success", "response": result["response"]})
         response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io")
+        response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io/chatbot")
         return response, 200
 
     except Exception as e:
