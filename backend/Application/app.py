@@ -5,7 +5,7 @@ from ..Generation.generator import Generator
 # Flask Uygulaması
 app = Flask(__name__)
 
-# CORS Yapılandırması
+# CORS Yapılandırması (Her route için geçerli)
 CORS(
     app,
     origins=["https://arifabds.github.io", "https://arifabds.github.io/chatbot"],  
@@ -20,41 +20,33 @@ def health_check():
     return jsonify({"status": "çalışır durumda"}), 200
 
 
-# Preflight OPTIONS Yanıtı
-@app.before_request
-def handle_options():
-    if request.method == "OPTIONS":
-        headers = {
-            "Access-Control-Allow-Origin": "https://arifabds.github.io/chatbot",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        }
-        return ('', 200, headers)
-
-
-# Generate Endpointi
-@app.route('/generate', methods=['POST'])
+# Generate Endpointi (CORS başlığı otomatik eklenecek)
+@app.route('/generate', methods=['POST', 'OPTIONS'])
 def generate():
+    if request.method == "OPTIONS":
+        return '', 200  # Preflight için basit yanıt
+
     try:
+        # Kullanıcıdan gelen promptu al
         data = request.get_json()
         user_prompt = data.get("userPrompt")
 
         if not user_prompt or user_prompt.strip() == "":
             return jsonify({"status": "error", "message": "Prompt boş olamaz!"}), 400
 
+        # Generator ile mesaj işleme
         generator = Generator()
         result = generator.send_message(user_prompt)
 
+        # Hata kontrolü
         if "error" in result:
             return jsonify({"status": "error", "message": result["error"]}), 500
 
-        response = jsonify({"status": "success", "response": result["response"]})
-        response.headers.add("Access-Control-Allow-Origin", "https://arifabds.github.io/chatbot")
-        return response, 200
+        # Başarılı yanıt
+        return jsonify({"status": "success", "response": result["response"]}), 200
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
-
 
 
 # Uygulama oluşturma
