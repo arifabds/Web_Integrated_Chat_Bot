@@ -31,23 +31,23 @@ def generate():
         response.headers.add("Access-Control-Allow-Headers", "*")
         return response
     
-    mesajApandisi = "bu sistemin nereye kadar çalıştığını gösteriyor"
+    mesajApandisi = "bu sistemin nereye kadar çalıştığını gösteriyor\n"
 
     try:
-        mesajApandisi += "try bloğuna girdi"
+        mesajApandisi += "try bloğuna girdi\n"
         data = request.get_json()
-        mesajApandisi += f"data request.getjson ile alındı data şu {data}"
+        mesajApandisi += f"data request.getjson ile alındı data şu {data}\n"
         user_prompt = data.get("userPrompt")
-        mesajApandisi += f"userPrompt alındı o da şu {user_prompt}"
+        mesajApandisi += f"userPrompt alındı o da şu {user_prompt}\n"
 
         if not user_prompt:
             return jsonify({"status": "error", "message": "Prompt boş olamaz!"}), 400
 
         generator = Generator()
-        mesajApandisi += f"generator objesı oluştu"
+        mesajApandisi += f"generator objesı oluştu\n"
         result = generator.send_message(user_prompt)
 
-        mesajApandisi += f"result oluştu: {result}"
+        mesajApandisi += f"result oluştu: {result}\n"
 
         if "error" in result:
             return jsonify({"status": "tüh ya error", "message": result["error"]}), 500
