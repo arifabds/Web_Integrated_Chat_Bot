@@ -30,16 +30,24 @@ def generate():
         response.headers.add("Access-Control-Allow-Origin", "*")
         response.headers.add("Access-Control-Allow-Headers", "*")
         return response
+    
+    mesajApandisi = "bu sistemin nereye kadar çalıştığını gösteriyor"
 
     try:
+        mesajApandisi += "try bloğuna girdi"
         data = request.get_json()
+        mesajApandisi += f"data request.getjson ile alındı data şu {data}"
         user_prompt = data.get("userPrompt")
+        mesajApandisi += f"userPrompt alındı o da şu {user_prompt}"
 
         if not user_prompt:
             return jsonify({"status": "error", "message": "Prompt boş olamaz!"}), 400
 
         generator = Generator()
+        mesajApandisi += f"generator objesı oluştu"
         result = generator.send_message(user_prompt)
+
+        mesajApandisi += f"result oluştu: {result}"
 
         if "error" in result:
             return jsonify({"status": "tüh ya error", "message": result["error"]}), 500
@@ -47,7 +55,7 @@ def generate():
         return jsonify({"status": "success", "response": result["response"]}), 200
 
     except Exception as e:
-        return jsonify({"status": "vah tüh error", "message": str(e)}), 500
+        return jsonify({"status": f"{mesajApandisi}", "message": str(e)}), 500
 
 @app.errorhandler(Exception)
 def handle_exception(e):
