@@ -3,6 +3,9 @@ from flask_cors import CORS
 import requests
 from ..Generation.generator import Generator
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 app = Flask(__name__)
 
 # CORS Yapılandırması
@@ -57,6 +60,11 @@ def generate():
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    app.logger.error(f"Beklenmeyen hata: {str(e)}")
+    return jsonify({"error": str(e)}), 500
 
 
 # Uygulama oluşturma
