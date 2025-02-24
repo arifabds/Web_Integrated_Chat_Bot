@@ -6,13 +6,7 @@ from ..Generation.generator import Generator
 app = Flask(__name__)
 
 # CORS Yapılandırması
-CORS(
-    app,
-    origins=["https://arifabds.github.io", "https://arifabds.github.io/chatbot"],
-    methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"],
-    supports_credentials=True
-)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Sağlık kontrolü
 @app.route('/health', methods=['GET'])
