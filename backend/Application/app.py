@@ -10,16 +10,26 @@ app = Flask(__name__)
 # CORS Yapılandırması
 CORS(app, resources={r"/*": {"origins": "*"}}, intercept_exceptions=True)
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
 # Sağlık kontrolü
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "çalışır durumda"}), 200
 
 # Generate Endpoint
-@app.route('/generate', methods=['POST'])
+@app.route('/generate', methods=['POST', 'OPTIONS'])
 def generate():
     if request.method == "OPTIONS":
-        return '', 200
+        # CORS preflight için response
+        response = jsonify()
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "*")
+        return response
 
     try:
         data = request.get_json()
