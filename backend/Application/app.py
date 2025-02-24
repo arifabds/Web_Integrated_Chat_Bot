@@ -42,12 +42,12 @@ def generate():
         result = generator.send_message(user_prompt)
 
         if "error" in result:
-            return jsonify({"status": "error", "message": result["error"]}), 500
+            return jsonify({"status": "tüh ya error", "message": result["error"]}), 500
 
         return jsonify({"status": "success", "response": result["response"]}), 200
 
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
+        return jsonify({"status": "vah tüh error", "message": str(e)}), 500
 
 @app.errorhandler(Exception)
 def handle_exception(e):
