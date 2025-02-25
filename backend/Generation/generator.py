@@ -4,10 +4,7 @@ import threading
 from ..Retrieval_Manager.RAG import RAG
 from ..Connection.API_handler import APIHandler
 from ..Scraping.scrape_manager import ScrapeManager
-try:
-    from sentence_transformers import SentenceTransformer
-except ImportError:
-    print("⚠️ 'sentence-transformers' yüklü değil. Model yüklenemedi.")
+from sentence_transformers import SentenceTransformer
 from ..Configuration.config import Config
 from ..Token_Balancers.chat_history_summarizer import ChatHistorySummarizer
 

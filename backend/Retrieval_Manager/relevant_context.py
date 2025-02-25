@@ -1,12 +1,6 @@
-try:
-    import numpy as np
-except ImportError:
-    print("⚠️ 'numpy' yüklü değil. Model yüklenemedi.")
+import numpy as np
 import requests
-try:
-    from numpy.linalg import norm
-except ImportError:
-    print("⚠️ 'numpy.linalg' yüklü değil. Model yüklenemedi.")
+from numpy.linalg import norm
 from queue import Queue
 import threading
 

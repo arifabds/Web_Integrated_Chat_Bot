@@ -1,0 +1,15 @@
+services:
+  - name: web-integrated-chat-bot
+    type: web
+    runtime: python
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8080
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn main:app"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /main.py
